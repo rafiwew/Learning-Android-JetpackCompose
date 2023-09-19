@@ -19,12 +19,16 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -179,4 +183,25 @@ fun JetCoffeeAppPreview() {
     JetCoffeeTheme {
         JetCoffeeApp()
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun FormInputPreview() {
+    JetCoffeeTheme {
+        FormInput()
+    }
+}
+
+@Composable
+fun FormInput() {
+    var name by rememberSaveable { mutableStateOf("") }
+    OutlinedTextField(
+        value = name,
+        onValueChange = { newName ->
+            name = newName
+        },
+        label = { Text("Nama") },
+        modifier = Modifier.padding(8.dp)
+    )
 }
