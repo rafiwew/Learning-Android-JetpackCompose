@@ -82,7 +82,7 @@ fun CartItemPreview() {
     JetRewardTheme {
         CartItem(
             4, R.drawable.reward_4, "Jaket Hoodie Dicoding", 4000, 0,
-            onProductCountChanged = { rewardId, count -> },
+            onProductCountChanged = { _, _ -> },
         )
     }
 }
