@@ -1,6 +1,9 @@
 package com.dicoding.newsapp.ui.detail
 
 import android.os.Bundle
+import android.view.ViewGroup
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.IntentCompat
 import com.dicoding.newsapp.R
 import com.dicoding.newsapp.data.local.entity.NewsEntity
@@ -38,6 +42,7 @@ class NewsDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         newsDetail = IntentCompat.getParcelableExtra(intent, NEWS_DATA, NewsEntity::class.java) as NewsEntity
 
         setContent {
@@ -58,6 +63,23 @@ class NewsDetailActivity : AppCompatActivity() {
     companion object {
         const val NEWS_DATA = "data"
     }
+}
+
+@Composable
+fun NewsDetailScreen(
+    newsDetail: NewsEntity,
+    viewModel: NewsDetailViewModel
+) {
+    viewModel.setNewsData(newsDetail)
+    val bookmarkStatus by viewModel.bookmarkStatus.observeAsState(false)
+    NewsDetailContent(
+        title = newsDetail.title,
+        url = newsDetail.url.toString(),
+        bookmarkStatus = bookmarkStatus,
+        updateBookmarkStatus = {
+            viewModel.changeBookmark(newsDetail)
+        }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -100,26 +122,22 @@ fun NewsDetailContent(
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
-
+            AndroidView(
+                factory = {
+                    WebView(it).apply {
+                        layoutParams = ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT
+                        )
+                        webViewClient = WebViewClient()
+                    }
+                },
+                update = {
+                    it.loadUrl(url)
+                }
+            )
         }
     }
-}
-
-@Composable
-fun NewsDetailScreen(
-    newsDetail: NewsEntity,
-    viewModel: NewsDetailViewModel
-) {
-    viewModel.setNewsData(newsDetail)
-    val bookmarkStatus by viewModel.bookmarkStatus.observeAsState(false)
-    NewsDetailContent(
-        title = newsDetail.title,
-        url = newsDetail.url.toString(),
-        bookmarkStatus = bookmarkStatus,
-        updateBookmarkStatus = {
-            viewModel.changeBookmark(newsDetail)
-        }
-    )
 }
 
 @Preview(showBackground = true)
