@@ -1,8 +1,10 @@
 package com.piwew.jetapp.ui.screen.detail
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -32,6 +34,7 @@ import com.piwew.jetapp.R
 import com.piwew.jetapp.di.Injection
 import com.piwew.jetapp.helper.ViewModelFactory
 import com.piwew.jetapp.ui.common.UiState
+import com.piwew.jetapp.ui.components.FavoriteButton
 import com.piwew.jetapp.ui.theme.JetAppTheme
 
 @Composable
@@ -106,7 +109,18 @@ fun DetailContent(
                     textAlign = TextAlign.Justify
                 )
             }
-
+        }
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(4.dp)
+                .background(Color.LightGray)
+        )
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            FavoriteButton(text = "Tambahkan ke favorite") {
+            }
         }
     }
 }
