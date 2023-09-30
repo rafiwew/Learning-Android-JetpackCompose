@@ -32,7 +32,7 @@ fun HomeScreen(
 
             is UiState.Success -> {
                 HomeContent(
-                    heroItem = uiState.data,
+                    groupedHeroes = uiState.data,
                     modifier = modifier,
                     navigateToDetail = navigateToDetail
                 )
@@ -45,7 +45,7 @@ fun HomeScreen(
 
 @Composable
 fun HomeContent(
-    heroItem: List<HeroItem>,
+    groupedHeroes: Map<Char, List<HeroItem>>,
     modifier: Modifier = Modifier,
     navigateToDetail: (String) -> Unit
 ) {
@@ -53,14 +53,16 @@ fun HomeContent(
         LazyColumn(
             contentPadding = PaddingValues(bottom = 80.dp)
         ) {
-            items(heroItem) { data ->
-                HeroListItem(
-                    name = data.item.name,
-                    photoUrl = data.item.photoUrl,
-                    modifier = Modifier.clickable {
-                        navigateToDetail(data.item.id)
-                    }
-                )
+            groupedHeroes.entries.forEach { (_, heroItems) ->
+                items(heroItems) { data ->
+                    HeroListItem(
+                        name = data.item.name,
+                        photoUrl = data.item.photoUrl,
+                        modifier = Modifier.clickable {
+                            navigateToDetail(data.item.id)
+                        }
+                    )
+                }
             }
         }
     }

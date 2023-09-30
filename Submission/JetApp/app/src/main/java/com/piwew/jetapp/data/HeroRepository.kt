@@ -3,7 +3,7 @@ package com.piwew.jetapp.data
 import com.piwew.jetapp.model.HeroItem
 import com.piwew.jetapp.model.HeroesData
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flow
 
 class HeroRepository {
 
@@ -17,13 +17,17 @@ class HeroRepository {
         }
     }
 
-    fun getAllHero(): Flow<List<HeroItem>> {
-        return flowOf(heroItem)
-    }
-
     fun getHeroItemById(heroId: String): HeroItem {
         return heroItem.first {
             it.item.id == heroId
+        }
+    }
+
+    fun getSortedAndGroupedHeroes(): Flow<Map<Char, List<HeroItem>>> {
+        return flow {
+            val sortedHeroes = heroItem.sortedBy { it.item.name }
+            val groupedHeroes = sortedHeroes.groupBy { it.item.name[0] }
+            emit(groupedHeroes)
         }
     }
 
