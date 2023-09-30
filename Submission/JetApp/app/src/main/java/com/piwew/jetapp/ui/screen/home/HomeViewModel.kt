@@ -15,6 +15,12 @@ class HomeViewModel(private val repository: HeroRepository) : ViewModel() {
         MutableStateFlow(UiState.Loading)
     val uiState: StateFlow<UiState<Map<Char, List<HeroItem>>>> get() = _uiState
 
+    private val _searchResult = MutableStateFlow<List<HeroItem>>(emptyList())
+    val searchResult: StateFlow<List<HeroItem>> get() = _searchResult
+
+    private val _query = MutableStateFlow("")
+    val query: StateFlow<String> get() = _query
+
     fun getAllHero() {
         viewModelScope.launch {
             repository.getSortedAndGroupedHeroes()
@@ -25,5 +31,22 @@ class HomeViewModel(private val repository: HeroRepository) : ViewModel() {
                     _uiState.value = UiState.Success(groupedHeroItems)
                 }
         }
+    }
+
+    fun searchHeroes() {
+        val currentQuery = _query.value
+        viewModelScope.launch {
+            repository.searchHeroes(currentQuery)
+                .catch {
+                    _uiState.value = UiState.Error(it.message.toString())
+                }
+                .collect { searchResult ->
+                    _searchResult.value = searchResult
+                }
+        }
+    }
+
+    fun setQuery(newQuery: String) {
+        _query.value = newQuery
     }
 }

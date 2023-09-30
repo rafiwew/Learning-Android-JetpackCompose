@@ -31,6 +31,15 @@ class HeroRepository {
         }
     }
 
+    fun searchHeroes(query: String): Flow<List<HeroItem>> {
+        return flow {
+            val filteredHeroes = heroItem.filter {
+                it.item.name.contains(query, ignoreCase = true)
+            }
+            emit(filteredHeroes)
+        }
+    }
+
     companion object {
         @Volatile
         private var instance: HeroRepository? = null

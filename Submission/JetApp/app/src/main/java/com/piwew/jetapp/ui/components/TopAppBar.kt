@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -21,25 +21,29 @@ fun TopAppBar() {
     TopAppBar(
         title = {
             Text(
-                "Bangkit",
+                "Pahlawan Indonesia",
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                color = Color.White,
+                fontWeight = FontWeight.Bold
             )
         },
         actions = {
             IconButton(onClick = { /* doSomething() */ }) {
                 Icon(
                     imageVector = Icons.Filled.Favorite,
+                    tint = Color.White,
                     contentDescription = "Localized description"
                 )
             }
             IconButton(onClick = { /* doSomething() */ }) {
                 Icon(
                     imageVector = Icons.Filled.AccountCircle,
+                    tint = Color.White,
                     contentDescription = "Localized description"
                 )
             }
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
     )
 }
