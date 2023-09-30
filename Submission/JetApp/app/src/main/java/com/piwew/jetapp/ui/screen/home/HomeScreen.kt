@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.piwew.jetapp.di.Injection
+import com.piwew.jetapp.helper.ViewModelFactory
 import com.piwew.jetapp.model.HeroItem
 import com.piwew.jetapp.ui.common.UiState
 import com.piwew.jetapp.ui.components.HeroListItem

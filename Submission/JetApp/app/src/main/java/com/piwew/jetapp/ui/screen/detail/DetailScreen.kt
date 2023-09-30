@@ -7,8 +7,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.piwew.jetapp.di.Injection
+import com.piwew.jetapp.helper.ViewModelFactory
 import com.piwew.jetapp.ui.common.UiState
-import com.piwew.jetapp.ui.screen.home.ViewModelFactory
 import com.piwew.jetapp.ui.theme.JetAppTheme
 
 @Composable
