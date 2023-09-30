@@ -30,7 +30,9 @@ fun JetApp(
     Scaffold(
         modifier = modifier,
         topBar = {
-            TopAppBar()
+            if (currentRoute != Screen.DetailHero.route) {
+                TopAppBar()
+            }
         },
     ) { innerPadding ->
         NavHost(
