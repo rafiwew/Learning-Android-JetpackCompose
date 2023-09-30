@@ -40,7 +40,9 @@ import com.piwew.jetapp.ui.theme.JetAppTheme
 @Composable
 fun DetailScreen(
     heroId: String,
-    viewModel: DetailViewModel = viewModel(factory = ViewModelFactory(Injection.provideRepository()))
+    viewModel: DetailViewModel = viewModel(factory = ViewModelFactory(Injection.provideRepository())),
+    navigateBack: () -> Unit,
+    navigateToCart: () -> Unit
 ) {
     viewModel.uiState.collectAsState(initial = UiState.Loading).value.let { uiState ->
         when (uiState) {
@@ -52,7 +54,9 @@ fun DetailScreen(
                 val data = uiState.data
                 DetailContent(
                     data.item.photoUrl,
-                    data.item.name
+                    data.item.name,
+                    onBackClick = navigateBack,
+                    onAddToFavorite = navigateToCart
                 )
             }
 
@@ -65,6 +69,8 @@ fun DetailScreen(
 fun DetailContent(
     photoUrl: String,
     name: String,
+    onBackClick: () -> Unit,
+    onAddToFavorite: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
@@ -89,7 +95,7 @@ fun DetailContent(
                     contentDescription = null,
                     modifier = Modifier
                         .padding(16.dp)
-                        .clickable { }
+                        .clickable { onBackClick() }
                 )
             }
             Column(
@@ -119,8 +125,7 @@ fun DetailContent(
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            FavoriteButton(text = "Tambahkan ke favorite") {
-            }
+            FavoriteButton(text = "Tambahkan ke favorite", onClick = onAddToFavorite)
         }
     }
 }
@@ -129,6 +134,6 @@ fun DetailContent(
 @Composable
 fun DetailContentPreview() {
     JetAppTheme {
-        DetailContent(name = "Muhammad Rafi", photoUrl = "")
+        DetailContent(name = "Muhammad Rafi", photoUrl = "", onBackClick = {}, onAddToFavorite = {})
     }
 }

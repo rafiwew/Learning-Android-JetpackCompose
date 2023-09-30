@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -16,6 +17,7 @@ import androidx.navigation.navArgument
 import com.piwew.jetapp.navigation.Screen
 import com.piwew.jetapp.ui.components.TopAppBar
 import com.piwew.jetapp.ui.screen.detail.DetailScreen
+import com.piwew.jetapp.ui.screen.favorite.FavoriteScreen
 import com.piwew.jetapp.ui.screen.home.HomeScreen
 import com.piwew.jetapp.ui.theme.JetAppTheme
 
@@ -46,12 +48,30 @@ fun JetApp(
                 })
             }
             composable(
+                route = Screen.Favorite.route
+            ) {
+                FavoriteScreen()
+            }
+            composable(
                 route = Screen.DetailHero.route,
                 arguments = listOf(navArgument("heroId") { type = NavType.StringType })
             ) {
                 val id = it.arguments?.getString("heroId") ?: ""
                 DetailScreen(
-                    heroId = id
+                    heroId = id,
+                    navigateBack = {
+                        navController.navigateUp()
+                    },
+                    navigateToCart = {
+                        navController.popBackStack()
+                        navController.navigate(Screen.Favorite.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    }
                 )
             }
         }
