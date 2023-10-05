@@ -33,14 +33,14 @@ fun TopAppBar() {
                 Icon(
                     imageVector = Icons.Filled.Favorite,
                     tint = Color.White,
-                    contentDescription = "Localized description"
+                    contentDescription = "Favorite"
                 )
             }
             IconButton(onClick = { /* doSomething() */ }) {
                 Icon(
                     imageVector = Icons.Filled.AccountCircle,
                     tint = Color.White,
-                    contentDescription = "Localized description"
+                    contentDescription = "Profile"
                 )
             }
         },

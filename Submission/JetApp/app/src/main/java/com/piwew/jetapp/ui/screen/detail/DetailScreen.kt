@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,6 +23,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,7 +41,6 @@ import com.piwew.jetapp.R
 import com.piwew.jetapp.di.Injection
 import com.piwew.jetapp.helper.ViewModelFactory
 import com.piwew.jetapp.ui.common.UiState
-import com.piwew.jetapp.ui.components.FavoriteButton
 import com.piwew.jetapp.ui.theme.JetAppTheme
 
 @Composable
@@ -46,8 +48,9 @@ fun DetailScreen(
     heroId: String,
     viewModel: DetailViewModel = viewModel(factory = ViewModelFactory(Injection.provideRepository())),
     navigateBack: () -> Unit,
-    navigateToCart: () -> Unit
 ) {
+    val isFavorite = remember { mutableStateOf(false) }
+
     viewModel.uiState.collectAsState(initial = UiState.Loading).value.let { uiState ->
         when (uiState) {
             is UiState.Loading -> {
@@ -56,11 +59,25 @@ fun DetailScreen(
 
             is UiState.Success -> {
                 val data = uiState.data
+
+                viewModel.checkFavorite(heroId) { isHeroFavorite ->
+                    isFavorite.value = isHeroFavorite
+                }
+
                 DetailContent(
-                    data.item.photoUrl,
-                    data.item.name,
+                    photoUrl = data.item.photoUrl,
+                    name = data.item.name,
                     onBackClick = navigateBack,
-                    onAddToFavorite = navigateToCart
+                    isFavorite = isFavorite.value,
+                    onToggleFavorite = {
+                        if (isFavorite.value) {
+                            viewModel.removeFromFavorites(heroId)
+                            isFavorite.value = false
+                        } else {
+                            viewModel.addToFavorites(heroId)
+                            isFavorite.value = true
+                        }
+                    }
                 )
             }
 
@@ -74,7 +91,8 @@ fun DetailContent(
     photoUrl: String,
     name: String,
     onBackClick: () -> Unit,
-    onAddToFavorite: () -> Unit,
+    isFavorite: Boolean,
+    onToggleFavorite: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
@@ -106,12 +124,14 @@ fun DetailContent(
                             .clickable { onBackClick() }
                     )
                     IconButton(
-                        onClick = { /*TODO*/ },
+                        onClick = { onToggleFavorite() },
                         modifier = modifier.padding(top = 4.dp)
                     ) {
+                        val icon =
+                            if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder
                         Icon(
-                            imageVector = Icons.Default.FavoriteBorder,
-                            tint = Color.White,
+                            imageVector = icon,
+                            tint = if (isFavorite) Color.Red else Color.White,
                             contentDescription = null,
                         )
                     }
@@ -141,11 +161,6 @@ fun DetailContent(
                 .height(4.dp)
                 .background(Color.LightGray)
         )
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            FavoriteButton(text = "Tambahkan ke favorite", onClick = onAddToFavorite)
-        }
     }
 }
 
@@ -153,6 +168,11 @@ fun DetailContent(
 @Composable
 fun DetailContentPreview() {
     JetAppTheme {
-        DetailContent(name = "Muhammad Rafi", photoUrl = "", onBackClick = {}, onAddToFavorite = {})
+        DetailContent(
+            photoUrl = "",
+            name = "Muhammad Rafi",
+            onBackClick = { /*TODO*/ },
+            isFavorite = true,
+            onToggleFavorite = { /*TODO*/ })
     }
 }

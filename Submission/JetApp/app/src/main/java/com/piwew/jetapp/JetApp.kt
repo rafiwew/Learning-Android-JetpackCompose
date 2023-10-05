@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -59,19 +58,7 @@ fun JetApp(
                 val id = it.arguments?.getString("heroId") ?: ""
                 DetailScreen(
                     heroId = id,
-                    navigateBack = {
-                        navController.navigateUp()
-                    },
-                    navigateToCart = {
-                        navController.popBackStack()
-                        navController.navigate(Screen.Favorite.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    }
+                    navigateBack = { navController.navigateUp() }
                 )
             }
         }

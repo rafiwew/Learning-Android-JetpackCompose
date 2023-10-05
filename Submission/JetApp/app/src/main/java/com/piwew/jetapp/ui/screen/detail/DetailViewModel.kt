@@ -3,7 +3,6 @@ package com.piwew.jetapp.ui.screen.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.piwew.jetapp.data.HeroRepository
-import com.piwew.jetapp.model.Hero
 import com.piwew.jetapp.model.HeroItem
 import com.piwew.jetapp.ui.common.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,9 +20,26 @@ class DetailViewModel(private val repository: HeroRepository) : ViewModel() {
         }
     }
 
-//    fun addToFavorite(hero: Hero, count: Int) {
-//        viewModelScope.launch {
-//            repository.
-//        }
-//    }
+    fun addToFavorites(heroId: String) {
+        viewModelScope.launch {
+            repository.addToFavorites(heroId)
+        }
+    }
+
+    fun removeFromFavorites(heroId: String) {
+        viewModelScope.launch {
+            repository.removeFromFavorites(heroId)
+        }
+    }
+
+    fun isFavorite(heroId: String): Boolean {
+        return repository.isFavorite(heroId)
+    }
+
+    fun checkFavorite(heroId: String, onResult: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            val isFavorite = repository.isFavorite(heroId)
+            onResult(isFavorite)
+        }
+    }
 }

@@ -58,6 +58,20 @@ class HeroRepository {
         return flowOf(favoriteHeroesList)
     }
 
+    fun addToFavorites(heroId: String) {
+        if (!favoriteHeroes.contains(heroId)) {
+            favoriteHeroes.add(heroId)
+        }
+    }
+
+    fun removeFromFavorites(heroId: String) {
+        favoriteHeroes.remove(heroId)
+    }
+
+    fun isFavorite(heroId: String): Boolean {
+        return favoriteHeroes.contains(heroId)
+    }
+
     companion object {
         @Volatile
         private var instance: HeroRepository? = null
