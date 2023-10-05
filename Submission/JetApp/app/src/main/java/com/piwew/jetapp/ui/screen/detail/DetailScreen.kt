@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -104,15 +105,16 @@ fun DetailContent(
                             .padding(16.dp)
                             .clickable { onBackClick() }
                     )
-                    Icon(
-                        imageVector = Icons.Default.FavoriteBorder,
-                        tint = Color.White,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .clickable { onBackClick() }
-                    )
-
+                    IconButton(
+                        onClick = { /*TODO*/ },
+                        modifier = modifier.padding(top = 4.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.FavoriteBorder,
+                            tint = Color.White,
+                            contentDescription = null,
+                        )
+                    }
                 }
             }
             Column(
