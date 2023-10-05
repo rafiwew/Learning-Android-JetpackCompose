@@ -1,17 +1,14 @@
 package com.piwew.jetapp.data
 
-import com.piwew.jetapp.model.Hero
 import com.piwew.jetapp.model.HeroItem
 import com.piwew.jetapp.model.HeroesData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 
 class HeroRepository {
 
     private val heroItem = mutableListOf<HeroItem>()
     private val favoriteHeroes = mutableListOf<String>()
-    private val favoriteHeroesList = mutableListOf<Hero>()
 
     init {
         if (heroItem.isEmpty()) {
@@ -44,18 +41,11 @@ class HeroRepository {
         }
     }
 
-    fun getFavoriteHeroes(): Flow<List<String>> {
-        return flowOf(favoriteHeroes)
-    }
-
-    fun getFavoriteHeroesList(): Flow<List<Hero>> {
-        favoriteHeroesList.clear()
-        HeroesData.heroes.filter {
-            favoriteHeroes.contains(it.id)
-        }.forEach { hero ->
-            favoriteHeroesList.add(hero)
+    fun getFavoriteHeroes(): Flow<List<HeroItem>> {
+        return flow {
+            val favoriteHeroItems = heroItem.filter { it.item.id in favoriteHeroes }
+            emit(favoriteHeroItems)
         }
-        return flowOf(favoriteHeroesList)
     }
 
     fun addToFavorites(heroId: String) {

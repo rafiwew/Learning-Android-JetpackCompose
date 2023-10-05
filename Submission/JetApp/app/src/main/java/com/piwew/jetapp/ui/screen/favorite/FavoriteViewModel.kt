@@ -3,40 +3,29 @@ package com.piwew.jetapp.ui.screen.favorite
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.piwew.jetapp.data.HeroRepository
-import com.piwew.jetapp.model.Hero
+import com.piwew.jetapp.model.HeroItem
 import com.piwew.jetapp.ui.common.UiState
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class FavoriteViewModel(private val repository: HeroRepository) : ViewModel() {
-    private val _favoriteHeroesListUiState: MutableStateFlow<UiState<List<Hero>>> =
+    private val _uiState: MutableStateFlow<UiState<List<HeroItem>>> =
         MutableStateFlow(UiState.Loading)
-    val favoriteHeroesListUiState: StateFlow<UiState<List<Hero>>> get() = _favoriteHeroesListUiState
+    val uiState: StateFlow<UiState<List<HeroItem>>> get() = _uiState
 
-    private val _favoriteHeroesUiState: MutableStateFlow<UiState<List<String>>> =
-        MutableStateFlow(UiState.Loading)
-    val favoriteHeroesUiState: StateFlow<UiState<List<String>>> get() = _favoriteHeroesUiState
+    val favoriteHeroes: Flow<List<HeroItem>> = repository.getFavoriteHeroes()
 
-    fun getFavoriteHeroes() {
+    fun getAllFavoriteHeroes() {
         viewModelScope.launch {
-            repository.getFavoriteHeroes().catch {
-                _favoriteHeroesUiState.value = UiState.Error(it.message.toString())
-            }
-                .collect { items ->
-                    _favoriteHeroesUiState.value = UiState.Success(items)
+            repository.getFavoriteHeroes()
+                .catch {
+                    _uiState.value = UiState.Error(it.message.toString())
                 }
-        }
-    }
-
-    fun getFavoriteHeroesList() {
-        viewModelScope.launch {
-            repository.getFavoriteHeroesList().catch {
-                _favoriteHeroesListUiState.value = UiState.Error(it.message.toString())
-            }
-                .collect { items ->
-                    _favoriteHeroesListUiState.value = UiState.Success(items)
+                .collect { favoriteHeroItems ->
+                    _uiState.value = UiState.Success(favoriteHeroItems)
                 }
         }
     }

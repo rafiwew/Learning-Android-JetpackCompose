@@ -32,7 +32,7 @@ fun JetApp(
         modifier = modifier,
         topBar = {
             if (currentRoute != Screen.DetailHero.route) {
-                TopAppBar()
+                TopAppBar(navController = navController)
             }
         },
     ) { innerPadding ->

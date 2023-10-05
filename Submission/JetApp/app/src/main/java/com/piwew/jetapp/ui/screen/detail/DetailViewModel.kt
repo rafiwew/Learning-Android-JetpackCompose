@@ -32,10 +32,6 @@ class DetailViewModel(private val repository: HeroRepository) : ViewModel() {
         }
     }
 
-    fun isFavorite(heroId: String): Boolean {
-        return repository.isFavorite(heroId)
-    }
-
     fun checkFavorite(heroId: String, onResult: (Boolean) -> Unit) {
         viewModelScope.launch {
             val isFavorite = repository.isFavorite(heroId)

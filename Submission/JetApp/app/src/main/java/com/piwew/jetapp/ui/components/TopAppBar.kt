@@ -14,10 +14,12 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.navigation.NavHostController
+import com.piwew.jetapp.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBar() {
+fun TopAppBar(navController: NavHostController) {
     TopAppBar(
         title = {
             Text(
@@ -29,7 +31,7 @@ fun TopAppBar() {
             )
         },
         actions = {
-            IconButton(onClick = { /* doSomething() */ }) {
+            IconButton(onClick = { navController.navigate(Screen.Favorite.route) }) {
                 Icon(
                     imageVector = Icons.Filled.Favorite,
                     tint = Color.White,
