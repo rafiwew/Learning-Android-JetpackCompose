@@ -32,7 +32,9 @@ fun JetApp(
         modifier = modifier,
         topBar = {
             if (currentRoute != Screen.DetailHero.route) {
-                TopAppBar(navController = navController)
+                if (currentRoute != Screen.Favorite.route) {
+                    TopAppBar(navController = navController)
+                }
             }
         },
     ) { innerPadding ->
@@ -49,7 +51,12 @@ fun JetApp(
             composable(
                 route = Screen.Favorite.route
             ) {
-                FavoriteScreen()
+                FavoriteScreen(
+                    navigateToDetail = { heroId ->
+                        navController.navigate(Screen.DetailHero.createRoute(heroId))
+                    },
+                    navigateBack = { navController.navigateUp() }
+                )
             }
             composable(
                 route = Screen.DetailHero.route,

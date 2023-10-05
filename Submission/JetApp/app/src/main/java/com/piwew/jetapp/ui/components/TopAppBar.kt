@@ -35,14 +35,14 @@ fun TopAppBar(navController: NavHostController) {
                 Icon(
                     imageVector = Icons.Filled.Favorite,
                     tint = Color.White,
-                    contentDescription = "Favorite"
+                    contentDescription = "favorite_page"
                 )
             }
             IconButton(onClick = { /* doSomething() */ }) {
                 Icon(
                     imageVector = Icons.Filled.AccountCircle,
                     tint = Color.White,
-                    contentDescription = "Profile"
+                    contentDescription = "about_page"
                 )
             }
         },
