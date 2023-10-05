@@ -2,8 +2,10 @@ package com.piwew.jetapp.ui.screen.detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -89,14 +92,28 @@ fun DetailContent(
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp))
                 )
-                Icon(
-                    imageVector = Icons.Default.ArrowBack,
-                    tint = Color.White,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .clickable { onBackClick() }
-                )
+                Row(
+                    modifier = modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        tint = Color.White,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .clickable { onBackClick() }
+                    )
+                    Icon(
+                        imageVector = Icons.Default.FavoriteBorder,
+                        tint = Color.White,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .clickable { onBackClick() }
+                    )
+
+                }
             }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
