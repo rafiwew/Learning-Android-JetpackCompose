@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.piwew.jetapp.navigation.Screen
 import com.piwew.jetapp.ui.components.TopAppBar
+import com.piwew.jetapp.ui.screen.about.AboutScreen
 import com.piwew.jetapp.ui.screen.detail.DetailScreen
 import com.piwew.jetapp.ui.screen.favorite.FavoriteScreen
 import com.piwew.jetapp.ui.screen.home.HomeScreen
@@ -33,7 +34,9 @@ fun JetApp(
         topBar = {
             if (currentRoute != Screen.DetailHero.route) {
                 if (currentRoute != Screen.Favorite.route) {
-                    TopAppBar(navController = navController)
+                    if (currentRoute != Screen.About.route) {
+                        TopAppBar(navController = navController)
+                    }
                 }
             }
         },
@@ -43,7 +46,9 @@ fun JetApp(
             startDestination = Screen.Home.route,
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(Screen.Home.route) {
+            composable(
+                route = Screen.Home.route
+            ) {
                 HomeScreen(navigateToDetail = { heroId ->
                     navController.navigate(Screen.DetailHero.createRoute(heroId))
                 })
@@ -65,6 +70,13 @@ fun JetApp(
                 val id = it.arguments?.getString("heroId") ?: ""
                 DetailScreen(
                     heroId = id,
+                    navigateBack = { navController.navigateUp() }
+                )
+            }
+            composable(
+                route = Screen.About.route
+            ) {
+                AboutScreen(
                     navigateBack = { navController.navigateUp() }
                 )
             }

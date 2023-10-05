@@ -2,4 +2,7 @@
     <string name="app_name">JetApp</string>
     <string name="search_hero">Cari pahwalanmu</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed enim orci, commodo ut condimentum id, imperdiet at neque. Ut rutrum eget ligula maximus egestas. Aliquam sodales venenatis metus vitae blandit. Aliquam elementum nisl et metus finibus, non placerat nulla bibendum. Pellentesque id feugiat dui. Sed bibendum quam sagittis erat sodales, ut sollicitudin erat posuere. Aliquam leo nibh, ullamcorper ut porta sit amet, semper quis erat. Pellentesque et ornare libero. Ut feugiat, ex vitae placerat tempor, ligula massa sollicitudin mi, id mollis libero mauris in magna. Donec imperdiet lorem id mi suscipit ultrices. Donec tempus feugiat tortor vitae efficitur. Integer massa odio, luctus vel efficitur ut, gravida sed urna.</string>
+    <string name="profile_picture">
+        https://firebasestorage.googleapis.com/v0/b/bangkit-dashboard/o/production%2F2023-B2%2Fprofiles%2Fc3e1f964-f92b-455b-b4ca-1d63c8b99842.jpg
+    </string>
 </resources>

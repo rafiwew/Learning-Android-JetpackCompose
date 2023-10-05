@@ -38,7 +38,7 @@ fun TopAppBar(navController: NavHostController) {
                     contentDescription = "favorite_page"
                 )
             }
-            IconButton(onClick = { /* doSomething() */ }) {
+            IconButton(onClick = { navController.navigate(Screen.About.route) }) {
                 Icon(
                     imageVector = Icons.Filled.AccountCircle,
                     tint = Color.White,
